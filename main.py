@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-
 from apikeys import *
 
 intents = discord.Intents.default()
@@ -36,22 +35,12 @@ async def on_member_join(member):
     await channel.send('Hello!')
 
 
-@client.command(pass_context=True)
-async def join(ctx):
-    if ctx.author.voice:
-        channel = ctx.message.author.voice.channel
-        await channel.connect()
-        await ctx.send("Joining!")
-    else:
-        await ctx.send("Oi! You're not in a voice channel! You must be in a voice channel to run this command.")
+@client.event
+async def on_message(message):
+    testMessage1 = message.content
+    f = open("chatlog.txt", "a")
+    f.write(testMessage1 + "\n")
+    f.close()
 
-
-@client.command(pass_context=True)
-async def leave(ctx):
-    if ctx.voice_client:
-        await ctx.guild.voice_client.disconnect()
-        await ctx.send("I left the voice channel :(")
-    else:
-        await ctx.send("I'm not in a voice channel!")
 
 client.run(UltronToken)
